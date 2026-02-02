@@ -1,5 +1,13 @@
+# Telegram bot
 aiogram==3.0.1
-pydantic==1.10.12
+
+# Работа с базой данных PostgreSQL
 databases[postgresql]==0.6.0
 asyncpg==0.27.0
+
+# Для работы с переменными окружения
 python-dotenv==1.0.0
+
+# Для совместимости с aiogram
+pydantic==1.10.12
+annotated-types==0.5.0
