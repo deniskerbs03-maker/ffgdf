@@ -22,7 +22,7 @@ def home():
     return "Bot is running!"
 
 def run_web():
-    # Render Web Service ожидает открытый порт, используем 10000
+    # Render Web Service требует открытый порт, используем 10000
     app.run(host="0.0.0.0", port=10000)
 
 # ======== Основной бот ========
