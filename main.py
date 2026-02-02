@@ -7,11 +7,11 @@ from database.db import connect_db
 
 # Подключаем все хэндлеры
 from handlers import (
-    start,             # /start и главное меню
-    registration,      # регистрация пользователей
-    admin_panel,       # панель создателя
-    antidox,           # антидокс с включением/выключением
-    chat_settings      # настройки чата (вкл/выкл антидокс)
+    start,
+    registration,
+    admin_panel,
+    antidox,
+    chat_settings
 )
 
 # ======== Мини-сервер для Render Web Service ========
@@ -22,12 +22,11 @@ def home():
     return "Bot is running!"
 
 def run_web():
-    # Render Web Service требует открытый порт, используем 10000
+    # Render Web Service требует открытый порт
     app.run(host="0.0.0.0", port=10000)
 
 # ======== Основной бот ========
 async def start_bot():
-    # Создаём бот и диспетчер
     bot = Bot(token=BOT_TOKEN)
     dp = Dispatcher()
 
@@ -46,7 +45,5 @@ async def start_bot():
 
 # ======== Запуск Flask и бота параллельно ========
 if __name__ == "__main__":
-    # Запуск Flask в отдельном потоке
     Thread(target=run_web).start()
-    # Запуск бота
     asyncio.run(start_bot())
