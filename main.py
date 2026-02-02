@@ -1,4 +1,6 @@
 import asyncio
+from threading import Thread
+from flask import Flask
 from aiogram import Bot, Dispatcher
 from config import BOT_TOKEN
 from database.db import connect_db
@@ -12,8 +14,19 @@ from handlers import (
     chat_settings      # настройки чата (вкл/выкл антидокс)
 )
 
+# ======== Мини-сервер для Render Web Service ========
+app = Flask("")
 
-async def main():
+@app.route("/")
+def home():
+    return "Bot is running!"
+
+def run_web():
+    # Render Web Service ожидает открытый порт, используем 10000
+    app.run(host="0.0.0.0", port=10000)
+
+# ======== Основной бот ========
+async def start_bot():
     # Создаём бот и диспетчер
     bot = Bot(token=BOT_TOKEN)
     dp = Dispatcher()
@@ -28,10 +41,12 @@ async def main():
     dp.include_router(chat_settings.router)
     dp.include_router(antidox.router)
 
-    # Стартуем polling
     print("🚀 Бот запущен и готов к работе!")
     await dp.start_polling(bot)
 
-
+# ======== Запуск Flask и бота параллельно ========
 if __name__ == "__main__":
-    asyncio.run(main())
+    # Запуск Flask в отдельном потоке
+    Thread(target=run_web).start()
+    # Запуск бота
+    asyncio.run(start_bot())
